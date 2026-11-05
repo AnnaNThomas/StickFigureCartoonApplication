@@ -60,6 +60,7 @@
             button2 = new Button();
             button1 = new Button();
             ColorDB = new ColorDialog();
+            SaveDB = new SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)PBSurface).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -281,6 +282,7 @@
             RadioDashed.TabIndex = 1;
             RadioDashed.Text = "Dashed";
             RadioDashed.UseVisualStyleBackColor = true;
+            RadioDashed.Click += RadioDashed_Click;
             // 
             // RadioSolid
             // 
@@ -294,6 +296,7 @@
             RadioSolid.TabStop = true;
             RadioSolid.Text = "Solid";
             RadioSolid.UseVisualStyleBackColor = true;
+            RadioSolid.Click += RadioSolid_Click;
             // 
             // groupBox4
             // 
@@ -367,6 +370,7 @@
             button4.TabIndex = 3;
             button4.Text = "Clear Surface";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button3
             // 
@@ -376,6 +380,7 @@
             button3.TabIndex = 2;
             button3.Text = "Save Image";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -396,6 +401,12 @@
             button1.Text = "Undo";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // SaveDB
+            // 
+            SaveDB.DefaultExt = "png";
+            SaveDB.Filter = "Png|*.png";
+            SaveDB.InitialDirectory = "Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)";
             // 
             // Form1
             // 
@@ -460,5 +471,6 @@
         private TrackBar TrackBrushSize;
         private ColorDialog ColorDB;
         private DateTimePicker dateTimePicker1;
+        private SaveFileDialog SaveDB;
     }
 }

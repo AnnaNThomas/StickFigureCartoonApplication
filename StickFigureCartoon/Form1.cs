@@ -168,25 +168,31 @@ namespace StickFigureCartoon
 
         private void PBSurface_MouseDown(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right) 
-            {
-           
-
-
-            int rightClickX = e.X;
-            int rightClickY = e.Y;
-
-            FormText textForm = new FormText();
-
-            if (textForm.ShowDialog() == DialogResult.OK)
+            if (e.Button == MouseButtons.Right)
             {
 
-            }
 
-            textForm.Dispose();
-        }
-            else if(e.Button == MouseButtons.Left)
+
+                int rightClickX = e.X;
+                int rightClickY = e.Y;
+
+                FormText textForm = new FormText();
+
+                if (textForm.ShowDialog() == DialogResult.OK)
                 {
+                    UndoStack.Push((Bitmap)bitmapObject.Clone());
+                    RedoStack.Clear();
+                    Font chosenFont = new Font(theFont.FontFamily, theFont.Size, theFont.Style);
+                    Brush chosenBrush = new SolidBrush(theFontColor);
+                    graphicsObject.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                    graphicsObject.DrawString(theText, chosenFont, chosenBrush, rightClickX, rightClickY);
+                    PBSurface.Invalidate();
+                }
+
+                textForm.Dispose();
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
                 mouseX = e.X;
                 mouseY = e.Y;
 
@@ -196,8 +202,11 @@ namespace StickFigureCartoon
                 RedoStack.Clear();
 
 
+
             }
-               
+
+
+
         }
 
 
@@ -448,6 +457,51 @@ mouseY + size.HeadDiameter + size.BodySize + size.LegSize);
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (SaveDB.ShowDialog() == DialogResult.OK)
+            {
+                string savePath = SaveDB.FileName;
+                Bitmap bmpImage = new Bitmap(bitmapObject);
+                bmpImage.Save(savePath, System.Drawing.Imaging.ImageFormat.Png);
+                bmpImage.Dispose();
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int stackCount = UndoStack.Count;
+            int loopCount = 0;
+            if (UndoStack.Count > 0)
+            {
+                do
+                {
+                    bitmapObject = UndoStack.Pop();
+                    graphicsObject = Graphics.FromImage(bitmapObject);
+                    PBSurface.Invalidate();
+                    loopCount++;
+
+                } while (loopCount < stackCount);
+            }
+
+        }
+
+        private void RadioSolid_Click(object sender, EventArgs e)
+        {
+            drawingPen.DashStyle = DashStyle.Solid;
+
+
+        }
+
+        private void RadioDashed_Click(object sender, EventArgs e)
+        {
+            drawingPen.DashStyle = DashStyle.Dash;
+
+
         }
     }
 }
