@@ -1,5 +1,9 @@
 using Microsoft.VisualBasic.Devices;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Drawing2D;
+
+
+
 
 
 
@@ -25,6 +29,12 @@ namespace StickFigureCartoon
 
         readonly Stack<Bitmap> UndoStack = new Stack<Bitmap>();
         readonly Stack<Bitmap> RedoStack = new Stack<Bitmap>();
+
+        public static string theText;
+        public static Font theFont;
+        public static Color theFontColor;
+
+
 
 
 
@@ -158,13 +168,38 @@ namespace StickFigureCartoon
 
         private void PBSurface_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseX = e.X;
-            mouseY = e.Y;
-            //UNDO ,REDO
+            if(e.Button == MouseButtons.Right) 
+            {
+           
 
-            UndoStack.Push((Bitmap)bitmapObject.Clone());
-            RedoStack.Clear();
+
+            int rightClickX = e.X;
+            int rightClickY = e.Y;
+
+            FormText textForm = new FormText();
+
+            if (textForm.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+
+            textForm.Dispose();
         }
+            else if(e.Button == MouseButtons.Left)
+                {
+                mouseX = e.X;
+                mouseY = e.Y;
+
+                //UNDO ,REDO
+
+                UndoStack.Push((Bitmap)bitmapObject.Clone());
+                RedoStack.Clear();
+
+
+            }
+               
+        }
+
 
         private void BtnArmsStraight_Click(object sender, EventArgs e)
         {
@@ -307,7 +342,7 @@ namespace StickFigureCartoon
         private void DrawStickLady()
         {
             StrickFigureDimensions size = new StrickFigureDimensions(mouseY, mouseY1);
-            Point[]  polygonPoints = new Point[3];
+            Point[] polygonPoints = new Point[3];
             polygonPoints[0] = new Point(0, 0);
             polygonPoints[1] = new Point(0, 0);
             polygonPoints[2] = new Point(0, 0);
@@ -409,6 +444,10 @@ mouseY + size.HeadDiameter + size.BodySize + size.LegSize);
                 MessageBox.Show("Nothing to Redo ");
 
             }
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
         }
     }
 }

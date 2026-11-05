@@ -413,6 +413,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Stick Figure Draw";
             Load += Form1_Loadc;
+            MouseDown += Form1_MouseDown;
             ((System.ComponentModel.ISupportInitialize)PBSurface).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
